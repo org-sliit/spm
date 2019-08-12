@@ -34,58 +34,61 @@ public class home extends javax.swing.JFrame {
 
         String[] add1 = {" + ", " - ", "*", "/", "%", "++", "--", "==", "!=", " > ", " < ", ">=", "<=", "&&", "||", "!", "|", "^", "~", "<<", ">>", ">>>", "<<<",
             ",", "->", ".", "::", "+=", "-=", "*=", "/=", " = ", ">>>=", "|=", "&=", "%=", "<<=", ">>=", "^=",
-            " void", "double ", "int ", "float ", "String ", "printf", "println", "cout", "cin", " if", " for", " while",
+            " void", "double ", "int ", "float ", "String ", "printf(", "println(", "cout", "cin", " if", " for", " while",
             "do-while", " switch", "case", "endl", "\n", "class ", "new ",};
 
         String[] add2 = {"new", "delete", " throw", "and", " throws"};
-        //int a[]=new int[100];
-
-        int i = 0;
+        
+        String lines[] = javatext.split("\\r?\\n");
+        
+        for(String slines:lines){
+            int i = 0;
         int s = 0;
         String str;
 
-        str = javatext;
+        str = slines;
 
-        javatext.indexOf(add1[i]);
+        //slines.indexOf(add1[i]);
         for (i = 0; i <= 57; i++) {
-            javatext = tjava.getText().toString();
+            //slines = tjava.getText().toString();
 
-            for (s = 0; s <= javatext.length(); s++) {
+            for (s = 0; s <= slines.length(); s++) {
 
-                if ((javatext.indexOf(add1[i]) > 0)) {
+                if ((slines.indexOf(add1[i]) > 0)) {
 
                     try {
                         incr1 = incr1 + 1;
-                        str = javatext.substring(javatext.indexOf(add1[i]) + add1[i].length(), javatext.length());
+                        str = slines.substring(slines.indexOf(add1[i]) + add1[i].length(), slines.length());
                         //System.out.println(str);
                         System.out.println(add1[i]);
-                        javatext = str;
+                        slines = str;
                     } catch (Exception ex) {
                         System.out.println(ex);
 
                     }
                 }
                 //System.out.println(javatext.indexOf(add1[i]));
-
+            
             }
-
+        
         }
+        }
+        String str1;
+        //slines = tjava.getText().toString();
+for(String slines2:lines){
+        for (int i = 0; i <= 4; i++) {
+            //javatext = tjava.getText().toString();
 
-        javatext = tjava.getText().toString();
+            for (int s = 0; s <= slines2.length(); s++) {
 
-        for (i = 0; i <= 4; i++) {
-            javatext = tjava.getText().toString();
-
-            for (s = 0; s <= javatext.length(); s++) {
-
-                if ((javatext.indexOf(add2[i]) > 0)) {
+                if ((slines2.indexOf(add2[i]) > 0)) {
 
                     try {
                         incr2 = incr2 + 2;
-                        str = javatext.substring(javatext.indexOf(add2[i]) + add2[i].length(), javatext.length());
+                        str1 = slines2.substring(slines2.indexOf(add2[i]) + add2[i].length(), slines2.length());
                         //System.out.println(str);
                         System.out.println(add2[i]);
-                        javatext = str;
+                        slines2 = str1;
                     } catch (Exception ex) {
                         System.out.println(ex);
 
@@ -94,12 +97,21 @@ public class home extends javax.swing.JFrame {
                 //System.out.println(javatext.indexOf(add1[i]));
 
             }
-        }
+        }}
+            
+        
+        //int a[]=new int[100];
+
+        
         //Class c = Class.forName("MyClass");
    
-        char[] javaarray=javatext.toCharArray();
+        //char[] javaarray=javatext.toCharArray();
 jcs.setText(String.valueOf(incr1 + incr2));
+System.out.println(incr1);
+System.out.println(incr2);
+
         //return (incr1+incr2);
+        
 
         Class className = null;
 
