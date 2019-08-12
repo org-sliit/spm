@@ -10,6 +10,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 
 /**
  *
@@ -38,81 +39,100 @@ public class home extends javax.swing.JFrame {
             "do-while", " switch", "case", "endl", "\n", "class ", "new ",};
 
         String[] add2 = {"new", "delete", " throw", "and", " throws"};
-        
+
         String lines[] = javatext.split("\\r?\\n");
-        
-        for(String slines:lines){
+
+        ArrayList<Integer> cline = new ArrayList<Integer>();
+
+        for (String slines : lines) {
             int i = 0;
-        int s = 0;
-        String str;
+            int s = 0;
+            int l = 0;
+            l = l + 1;
+            String str;
+            String ostr = slines;
 
-        str = slines;
+            str = slines;
+            int tincr = 0;
 
-        //slines.indexOf(add1[i]);
-        for (i = 0; i <= 57; i++) {
-            //slines = tjava.getText().toString();
+            //slines.indexOf(add1[i]);
+            for (i = 0; i <= 57; i++) {
+                //slines = tjava.getText().toString();
 
-            for (s = 0; s <= slines.length(); s++) {
+                for (s = 0; s <= slines.length(); s++) {
 
-                if ((slines.indexOf(add1[i]) > 0)) {
+                    if ((slines.indexOf(add1[i]) > 0)) {
 
-                    try {
-                        incr1 = incr1 + 1;
-                        str = slines.substring(slines.indexOf(add1[i]) + add1[i].length(), slines.length());
-                        //System.out.println(str);
-                        System.out.println(add1[i]);
-                        slines = str;
-                    } catch (Exception ex) {
-                        System.out.println(ex);
+                        try {
 
+                            incr1 = incr1 + 1;
+                            tincr = tincr + 1;
+                            str = slines.substring(slines.indexOf(add1[i]) + add1[i].length(), slines.length());
+                            //System.out.println(str);
+                            //System.out.println(add1[i]);
+                            slines = str;
+                        } catch (Exception ex) {
+                            System.out.println(ex);
+
+                        }
                     }
+                    //System.out.println(javatext.indexOf(add1[i]));
+
                 }
-                //System.out.println(javatext.indexOf(add1[i]));
-            
+
             }
-        
+
+            cline.add(incr1);
+
         }
-        }
+        System.out.println("^^^^^^^^^^^^^^^^^^^^^^");
+
         String str1;
         //slines = tjava.getText().toString();
-for(String slines2:lines){
-        for (int i = 0; i <= 4; i++) {
-            //javatext = tjava.getText().toString();
+        for (String slines2 : lines) {
 
-            for (int s = 0; s <= slines2.length(); s++) {
+            int l = 0;
+            l = l + 1;
 
-                if ((slines2.indexOf(add2[i]) > 0)) {
+            int tincr = 0;
 
-                    try {
-                        incr2 = incr2 + 2;
-                        str1 = slines2.substring(slines2.indexOf(add2[i]) + add2[i].length(), slines2.length());
-                        //System.out.println(str);
-                        System.out.println(add2[i]);
-                        slines2 = str1;
-                    } catch (Exception ex) {
-                        System.out.println(ex);
+            String ostr = slines2;
+            for (int i = 0; i <= 4; i++) {
+                //javatext = tjava.getText().toString();
 
+                for (int s = 0; s <= slines2.length(); s++) {
+
+                    if ((slines2.indexOf(add2[i]) > 0)) {
+
+                        try {
+                            incr2 = incr2 + 2;
+                            tincr = tincr + 2;
+                            //System.out.println(add1[i]);
+
+                            str1 = slines2.substring(slines2.indexOf(add2[i]) + add2[i].length(), slines2.length());
+
+                            slines2 = str1;
+                        } catch (Exception ex) {
+                            System.out.println(ex);
+
+                        }
                     }
+                    //System.out.println(javatext.indexOf(add1[i]));
+
                 }
-                //System.out.println(javatext.indexOf(add1[i]));
-
             }
-        }}
-            
-        
-        //int a[]=new int[100];
+
+            System.out.println(ostr+ "********" +((cline.get(l))+(tincr)));
+            //System.out.println(cline.get(l));
+            //System.out.println(cline.get(l)+tincr);
 
         
-        //Class c = Class.forName("MyClass");
-   
-        //char[] javaarray=javatext.toCharArray();
-jcs.setText(String.valueOf(incr1 + incr2));
-System.out.println(incr1);
-System.out.println(incr2);
+            tincr = 0;
+        }
+
+        jcs.setText(String.valueOf(incr1 + incr2));
 
         //return (incr1+incr2);
-        
-
         Class className = null;
 
         //className= Class.forName(args[0]);
