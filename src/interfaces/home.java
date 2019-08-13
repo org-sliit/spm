@@ -44,11 +44,13 @@ public class home extends javax.swing.JFrame {
 
         ArrayList<Integer> cline = new ArrayList<Integer>();
 
+        int l = 0;
+        
         for (String slines : lines) {
             int i = 0;
             int s = 0;
-            int l = 0;
-            l = l + 1;
+            
+            
             String str;
             String ostr = slines;
 
@@ -67,6 +69,8 @@ public class home extends javax.swing.JFrame {
 
                             incr1 = incr1 + 1;
                             tincr = tincr + 1;
+                            
+                            
                             str = slines.substring(slines.indexOf(add1[i]) + add1[i].length(), slines.length());
                             //System.out.println(str);
                             //System.out.println(add1[i]);
@@ -76,23 +80,74 @@ public class home extends javax.swing.JFrame {
 
                         }
                     }
+                    
+                   
                     //System.out.println(javatext.indexOf(add1[i]));
 
                 }
 
             }
+             l = l + 1;
+            cline.add(tincr);
 
-            cline.add(incr1);
+        }
+        
+        int l3=0;
+        int incr3=0;
+        
+         for (String slines : lines) {
+            int i = 0;
+            int s = 0;
+            
+            
+            String str;
+            String ostr = slines;
+
+            str = slines;
+            int tincr = 0;
+
+            //slines.indexOf(add1[i]);
+            
+                //slines = tjava.getText().toString();
+
+                for (s = 0; s <= slines.length(); s++) {
+
+                    if ((slines.indexOf(add1[i]) > 0)) {
+
+                        try {
+
+                            incr3 = incr3 + 1;
+                            tincr = tincr + 1;
+                            
+                            
+                            str = slines.substring(slines.indexOf(add1[i]) + add1[i].length(), slines.length());
+                            //System.out.println(str);
+                            //System.out.println(add1[i]);
+                            slines = str;
+                        } catch (Exception ex) {
+                            System.out.println(ex);
+
+                        }
+                    }
+                    
+                   
+                    //System.out.println(javatext.indexOf(add1[i]));
+
+                }
+
+             l3 = l3 + 1;
+            cline.add(tincr);
 
         }
         System.out.println("^^^^^^^^^^^^^^^^^^^^^^");
 
         String str1;
+                    int l2 = 0;
+
         //slines = tjava.getText().toString();
         for (String slines2 : lines) {
 
-            int l = 0;
-            l = l + 1;
+            
 
             int tincr = 0;
 
@@ -122,7 +177,8 @@ public class home extends javax.swing.JFrame {
                 }
             }
 
-            System.out.println(ostr+ "********" +((cline.get(l))+(tincr)));
+            System.out.println(ostr+ "********" +((cline.get(l2))+(tincr)));
+            l2 = l2 + 1;
             //System.out.println(cline.get(l));
             //System.out.println(cline.get(l)+tincr);
 
@@ -133,13 +189,7 @@ public class home extends javax.swing.JFrame {
         jcs.setText(String.valueOf(incr1 + incr2));
 
         //return (incr1+incr2);
-        Class className = null;
-
-        //className= Class.forName(args[0]);
-        // Method[] methods= className.getMethods();
-        //System.out.println("Number of methods in "+className+" = "+methods.length);
-        //  Method[] methods= className.getMethods();
-        // System.out.println(methods.length);
+        
     }
 
     /**
