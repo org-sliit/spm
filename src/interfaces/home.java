@@ -11,6 +11,9 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.lang.Character;
 
 /**
  *
@@ -31,26 +34,142 @@ public class home extends javax.swing.JFrame {
 
         int incr1 = 0;
         int incr2 = 0;
+        int fincr = 0;
+        int nincr = 0;
+        int x11 = 0;
         //jcs.setText(javatext);
 
         String[] add1 = {" + ", " - ", "*", "/", "%", "++", "--", "==", "!=", " > ", " < ", ">=", "<=", "&&", "||", "!", "|", "^", "~", "<<", ">>", ">>>", "<<<",
             ",", "->", ".", "::", "+=", "-=", "*=", "/=", " = ", ">>>=", "|=", "&=", "%=", "<<=", ">>=", "^=",
             " void", "double ", "int ", "float ", "String ", "printf(", "println(", "cout", "cin", " if", " for", " while",
-            "do-while", " switch", "case", "endl", "\n", "class ", "new ",};
+            "do-while", " switch", "case", "endl", "\n", "class ", "new "};
 
         String[] add2 = {"new", "delete", " throw", "and", " throws"};
 
         String lines[] = javatext.split("\\r?\\n");
 
+        String[] splited = javatext.split("\\s+");
+
         ArrayList<Integer> cline = new ArrayList<Integer>();
+        ArrayList<String> rspace = new ArrayList<String>();
+        ArrayList<String> vari = new ArrayList<String>();
+
+        ArrayList<String> rspace1 = new ArrayList<String>();
+
+        for (String rs : splited) {
+
+            rspace.add(rs);
+
+        }
+
+        for (int ii = 0; ii <= rspace.size() - 2; ii++) {
+
+            if ((rspace.get(ii).equals("int") || rspace.get(ii).equals("float") || rspace.get(ii).equals("String") || rspace.get(ii).equals("double"))
+                    && (rspace.get(ii + 1).indexOf("(") > 0)) {
+
+                fincr = fincr + 1;
+            }
+            if ((rspace.get(ii).equals("int") || rspace.get(ii).equals("float") || rspace.get(ii).equals("String") || rspace.get(ii).equals("double"))
+                    && (rspace.get(ii + 1).matches("[a-zA-Z$_][a-zA-Z0-9$_]*"))) {
+
+                fincr = fincr + 1;
+                vari.add(rspace.get(ii + 1));
+
+            }
+
+            String xx = "int1";
+            if (rspace.get(ii).indexOf("int[]") >= 0 || rspace.get(ii).equals("float[]") || rspace.get(ii).equals("String[]") || rspace.get(ii).equals("double[]")) {
+
+                fincr = fincr + 1;
+
+            } else if ((rspace.get(ii).equals("int") || rspace.get(ii).equals("float") || rspace.get(ii).equals("String") || rspace.get(ii).equals("double")) && (rspace.get(ii + 1).equals("[]"))) {
+
+                fincr = fincr + 1;
+            } else if ((rspace.get(ii + 1).equals("[]"))
+                    && (rspace.get(ii).matches("[a-zA-Z$_][a-zA-Z0-9$_]*"))) {
+
+                fincr = fincr + 1;
+            } else if ((rspace.get(ii).equals("[")) && (rspace.get(ii + 1).equals("]"))) {
+                fincr = fincr + 1;
+
+            }
+
+        }
+
+        for (String rs1 : splited) {
+
+            rspace1.add(rs1);
+
+        }
+        for (int ii = 0; ii <= rspace1.size() - 1; ii++) {
+
+            //String x1 = splited.toString();
+            //char[] chars = x1.toCharArray();
+            //StringBuilder sb = new StringBuilder();
+            //for (String y : vari) {
+            for (char c : rspace1.get(ii).toCharArray()) {
+
+                if (Character.isDigit(c) && !(vari.contains(rspace.get(ii)))) {
+                    nincr = nincr + 1;
+                    break;
+
+                }
+
+                {
+
+                }
+
+            }
+
+            Pattern p = Pattern.compile("\"");
+            Matcher m = p.matcher(javatext.toString());
+
+            /*while (m.find()) {
+                System.out.println(m.group(1));
+                if(m.group(1).length()>0){
+                    
+                    x11=x11+1;
+                }
+                
+            }*/
+            System.out.println(x11);
+        }
+
+        
+        String javatext1=tjava.getText().toString();
+        String q;
+        int qi=0;
+        
+        for (int s = 0; s <= javatext1.length(); s++) {
+
+                    if ((javatext1.indexOf("\"") > 0)) {
+
+                        try {
+
+                            qi = qi + 1;
+                            
+
+                            q = javatext1.substring(javatext1.indexOf("\"") + 1, javatext1.length());
+                            //System.out.println(str);
+                            //System.out.println(add1[i]);
+                            javatext1 = q;
+                        } catch (Exception ex) {
+                            System.out.println(ex);
+
+                        }
+                    }
+
+                }
+        
+        
+        System.out.println((nincr));
 
         int l = 0;
-        
+
         for (String slines : lines) {
             int i = 0;
             int s = 0;
-            
-            
+
             String str;
             String ostr = slines;
 
@@ -69,8 +188,7 @@ public class home extends javax.swing.JFrame {
 
                             incr1 = incr1 + 1;
                             tincr = tincr + 1;
-                            
-                            
+
                             str = slines.substring(slines.indexOf(add1[i]) + add1[i].length(), slines.length());
                             //System.out.println(str);
                             //System.out.println(add1[i]);
@@ -80,26 +198,22 @@ public class home extends javax.swing.JFrame {
 
                         }
                     }
-                    
-                   
-                    //System.out.println(javatext.indexOf(add1[i]));
 
                 }
 
             }
-             l = l + 1;
+            l = l + 1;
             cline.add(tincr);
 
         }
-        
-        int l3=0;
-        int incr3=0;
-        
-         for (String slines : lines) {
+
+        int l3 = 0;
+        int incr3 = 0;
+
+        for (String slines : lines) {
             int i = 0;
             int s = 0;
-            
-            
+
             String str;
             String ostr = slines;
 
@@ -107,47 +221,39 @@ public class home extends javax.swing.JFrame {
             int tincr = 0;
 
             //slines.indexOf(add1[i]);
-            
-                //slines = tjava.getText().toString();
+            //slines = tjava.getText().toString();
+            for (s = 0; s <= slines.length(); s++) {
 
-                for (s = 0; s <= slines.length(); s++) {
+                if ((slines.indexOf(add1[i]) > 0)) {
 
-                    if ((slines.indexOf(add1[i]) > 0)) {
+                    try {
 
-                        try {
+                        incr3 = incr3 + 1;
+                        tincr = tincr + 1;
 
-                            incr3 = incr3 + 1;
-                            tincr = tincr + 1;
-                            
-                            
-                            str = slines.substring(slines.indexOf(add1[i]) + add1[i].length(), slines.length());
-                            //System.out.println(str);
-                            //System.out.println(add1[i]);
-                            slines = str;
-                        } catch (Exception ex) {
-                            System.out.println(ex);
+                        str = slines.substring(slines.indexOf(add1[i]) + add1[i].length(), slines.length());
+                        //System.out.println(str);
+                        //System.out.println(add1[i]);
+                        slines = str;
+                    } catch (Exception ex) {
+                        System.out.println(ex);
 
-                        }
                     }
-                    
-                   
-                    //System.out.println(javatext.indexOf(add1[i]));
-
                 }
 
-             l3 = l3 + 1;
+                //System.out.println(javatext.indexOf(add1[i]));
+            }
+
+            l3 = l3 + 1;
             cline.add(tincr);
 
         }
-        System.out.println("^^^^^^^^^^^^^^^^^^^^^^");
 
         String str1;
-                    int l2 = 0;
+        int l2 = 0;
 
         //slines = tjava.getText().toString();
         for (String slines2 : lines) {
-
-            
 
             int tincr = 0;
 
@@ -177,19 +283,17 @@ public class home extends javax.swing.JFrame {
                 }
             }
 
-            System.out.println(ostr+ "********" +((cline.get(l2))+(tincr)));
+            System.out.println(ostr + "********" + ((cline.get(l2)) + (tincr)));
             l2 = l2 + 1;
             //System.out.println(cline.get(l));
             //System.out.println(cline.get(l)+tincr);
 
-        
             tincr = 0;
         }
 
-        jcs.setText(String.valueOf(incr1 + incr2));
+        jcs.setText(String.valueOf(incr1 + incr2 + fincr + nincr+((qi/2))));
 
         //return (incr1+incr2);
-        
     }
 
     /**
