@@ -37,22 +37,25 @@ public class home extends javax.swing.JFrame {
         int fincr = 0;
         int nincr = 0;
         int x11 = 0;
+        int oincr = 0;
         //jcs.setText(javatext);
 
-        String[] add1 = {" + ", " - ", "*", "/", "%", "++", "--", "==", "!=", " > ", " < ", ">=", "<=", "&&", "||", "!", "|", "^", "~", "<<", ">>", ">>>", "<<<",
+        String[] add1 = {" + ", " - ", "*", "/", "%", "++", "--", "==", "!=", " > ", " < ", ">=", "<=", "&&", "||", "!", " | ", "^", "~", " << ", " >> ", ">>>", "<<<",
             ",", "->", ".", "::", "+=", "-=", "*=", "/=", " = ", ">>>=", "|=", "&=", "%=", "<<=", ">>=", "^=",
-            " void", "double ", "int ", "float ", "String ", "printf(", "println(", "cout", "cin", " if", " for", " while",
-            "do-while", " switch", "case", "endl", "\n", "class ", "new "};
+            " void", "double ", "int ", "float ", "String ", "long ", "printf(", "println(", "cin", "if", " for (", " while(",
+            " do{", " switch", "case", "endl", "\n", " class ", " new ", "args[]", "System", "out", "FileNotFoundException", "accessFiles"};
 
-        String[] add2 = {"new", "delete", " throw", "and", " throws"};
+        String[] add2 = {" new ", "delete", " throw ", " and ", " throws "};
 
-        String lines[] = javatext.split("\\r?\\n");
+        String lines[] = javatext.split(" \\r?\\n");
 
         String[] splited = javatext.split("\\s+");
 
         ArrayList<Integer> cline = new ArrayList<Integer>();
         ArrayList<String> rspace = new ArrayList<String>();
         ArrayList<String> vari = new ArrayList<String>();
+        ArrayList<String> func = new ArrayList<String>();
+        ArrayList<String> obj = new ArrayList<String>();
 
         ArrayList<String> rspace1 = new ArrayList<String>();
 
@@ -64,12 +67,14 @@ public class home extends javax.swing.JFrame {
 
         for (int ii = 0; ii <= rspace.size() - 2; ii++) {
 
-            if ((rspace.get(ii).equals("int") || rspace.get(ii).equals("float") || rspace.get(ii).equals("String") || rspace.get(ii).equals("double"))
+            if ((rspace.get(ii).equals("int") || rspace.get(ii).equals("float") || rspace.get(ii).equals("String") || rspace.get(ii).equals("double") || (rspace.get(ii).equals("long")) || (rspace.get(ii).equals("void")))
                     && (rspace.get(ii + 1).indexOf("(") > 0)) {
 
                 fincr = fincr + 1;
+                func.add(rspace.get(ii + 1));
+
             }
-            if ((rspace.get(ii).equals("int") || rspace.get(ii).equals("float") || rspace.get(ii).equals("String") || rspace.get(ii).equals("double"))
+            if ((rspace.get(ii).equals("int") || rspace.get(ii).equals("float") || rspace.get(ii).equals("String") || rspace.get(ii).equals("double") || (rspace.get(ii).equals("long")))
                     && (rspace.get(ii + 1).matches("[a-zA-Z$_][a-zA-Z0-9$_]*"))) {
 
                 fincr = fincr + 1;
@@ -77,12 +82,27 @@ public class home extends javax.swing.JFrame {
 
             }
 
+
+            /*if ((rspace.get(ii).indexOf("(")>0)
+                    && (rspace.get(ii + 1).matches("[a-zA-Z$_][a-zA-Z0-9$_]*"))) {
+
+                fincr = fincr + 1;
+                vari.add(rspace.get(ii + 1));
+
+            }*/
+ /*if ((rspace.get(ii).equals("(int") || rspace.get(ii).equals("(float") || rspace.get(ii).equals("(String") || rspace.get(ii).equals("(double")||(rspace.get(ii).equals("(long")))
+                    && (rspace.get(ii + 1).matches("[a-zA-Z$_][a-zA-Z0-9$_]*"))) {
+
+                fincr = fincr + 1;
+                vari.add(rspace.get(ii + 1));
+
+            }*/
             String xx = "int1";
-            if (rspace.get(ii).indexOf("int[]") >= 0 || rspace.get(ii).equals("float[]") || rspace.get(ii).equals("String[]") || rspace.get(ii).equals("double[]")) {
+            if (rspace.get(ii).indexOf("int[]") >= 0 || rspace.get(ii).equals("float[]") || rspace.get(ii).equals("String[]") || rspace.get(ii).equals("double[]") || (rspace.get(ii).equals("long[]"))) {
 
                 fincr = fincr + 1;
 
-            } else if ((rspace.get(ii).equals("int") || rspace.get(ii).equals("float") || rspace.get(ii).equals("String") || rspace.get(ii).equals("double")) && (rspace.get(ii + 1).equals("[]"))) {
+            } else if ((rspace.get(ii).equals("int") || rspace.get(ii).equals("float") || rspace.get(ii).equals("String") || rspace.get(ii).equals("double") || (rspace.get(ii).equals("long"))) && (rspace.get(ii + 1).equals("[]"))) {
 
                 fincr = fincr + 1;
             } else if ((rspace.get(ii + 1).equals("[]"))
@@ -92,6 +112,12 @@ public class home extends javax.swing.JFrame {
             } else if ((rspace.get(ii).equals("[")) && (rspace.get(ii + 1).equals("]"))) {
                 fincr = fincr + 1;
 
+            }
+            
+            if(rspace.get(ii).equals("class")){
+                
+                obj.add(rspace.get(ii+1));
+                
             }
 
         }
@@ -121,47 +147,61 @@ public class home extends javax.swing.JFrame {
 
             }
 
-            Pattern p = Pattern.compile("\"");
-            Matcher m = p.matcher(javatext.toString());
+            if ((vari.contains(rspace.get(ii))) && (rspace.get(ii - 1).indexOf("long")) < 0) {
+                nincr = nincr + 1;
 
-            /*while (m.find()) {
-                System.out.println(m.group(1));
-                if(m.group(1).length()>0){
-                    
-                    x11=x11+1;
-                }
-                
-            }*/
+            }
+
+            if ((func.contains(rspace.get(ii))) && (rspace.get(ii - 1).indexOf("long")) < 0 && (rspace.get(ii - 1).indexOf("void")) < 0) {
+                nincr = nincr + 1;
+
+            }
+
+            
+            
+            
+            // if()
             System.out.println(x11);
         }
 
-        
-        String javatext1=tjava.getText().toString();
+        for (int ii = 0; ii <= rspace1.size() - 2; ii++) {
+            
+            if ((obj.contains(rspace.get(ii))) &&(rspace.get(ii+1)).matches("[a-zA-Z$_][a-zA-Z0-9$_]*")){
+
+                oincr=oincr+1;
+            }
+            
+        }
+        String javatext1 = tjava.getText().toString();
         String q;
-        int qi=0;
-        
+        int qi = 0;
+
         for (int s = 0; s <= javatext1.length(); s++) {
 
-                    if ((javatext1.indexOf("\"") > 0)) {
+            if ((javatext1.indexOf("\"") > 0)) {
 
-                        try {
+                try {
 
-                            qi = qi + 1;
-                            
+                    qi = qi + 1;
 
-                            q = javatext1.substring(javatext1.indexOf("\"") + 1, javatext1.length());
-                            //System.out.println(str);
-                            //System.out.println(add1[i]);
-                            javatext1 = q;
-                        } catch (Exception ex) {
-                            System.out.println(ex);
-
-                        }
-                    }
+                    q = javatext1.substring(javatext1.indexOf("\"") + 1, javatext1.length());
+                    //System.out.println(str);
+                    //System.out.println(add1[i]);
+                    javatext1 = q;
+                } catch (Exception ex) {
+                    System.out.println(ex);
 
                 }
-        
-        
+            }
+
+        }
+
+        Pattern p = Pattern.compile("\"([^\"]*)\"");
+        Matcher m = p.matcher(javatext);
+        while (m.find()) {
+            System.out.println(m.group(1));
+        }
+
         System.out.println((nincr));
 
         int l = 0;
@@ -177,19 +217,19 @@ public class home extends javax.swing.JFrame {
             int tincr = 0;
 
             //slines.indexOf(add1[i]);
-            for (i = 0; i <= 57; i++) {
+            for (i = 0; i <= add1.length - 1; i++) {
                 //slines = tjava.getText().toString();
 
                 for (s = 0; s <= slines.length(); s++) {
 
-                    if ((slines.indexOf(add1[i]) > 0)) {
+                    if ((slines.indexOf(add1[i]) >= 0)) {
 
                         try {
 
                             incr1 = incr1 + 1;
                             tincr = tincr + 1;
 
-                            str = slines.substring(slines.indexOf(add1[i]) + add1[i].length(), slines.length());
+                            str = slines.substring((slines.indexOf(add1[i])) + 1, slines.length());
                             //System.out.println(str);
                             //System.out.println(add1[i]);
                             slines = str;
@@ -201,54 +241,19 @@ public class home extends javax.swing.JFrame {
 
                 }
 
+                slines = ostr;
+
             }
             l = l + 1;
             cline.add(tincr);
 
         }
+       
 
         int l3 = 0;
         int incr3 = 0;
 
-        for (String slines : lines) {
-            int i = 0;
-            int s = 0;
-
-            String str;
-            String ostr = slines;
-
-            str = slines;
-            int tincr = 0;
-
-            //slines.indexOf(add1[i]);
-            //slines = tjava.getText().toString();
-            for (s = 0; s <= slines.length(); s++) {
-
-                if ((slines.indexOf(add1[i]) > 0)) {
-
-                    try {
-
-                        incr3 = incr3 + 1;
-                        tincr = tincr + 1;
-
-                        str = slines.substring(slines.indexOf(add1[i]) + add1[i].length(), slines.length());
-                        //System.out.println(str);
-                        //System.out.println(add1[i]);
-                        slines = str;
-                    } catch (Exception ex) {
-                        System.out.println(ex);
-
-                    }
-                }
-
-                //System.out.println(javatext.indexOf(add1[i]));
-            }
-
-            l3 = l3 + 1;
-            cline.add(tincr);
-
-        }
-
+        
         String str1;
         int l2 = 0;
 
@@ -263,7 +268,7 @@ public class home extends javax.swing.JFrame {
 
                 for (int s = 0; s <= slines2.length(); s++) {
 
-                    if ((slines2.indexOf(add2[i]) > 0)) {
+                    if ((slines2.indexOf(add2[i]) >= 0)) {
 
                         try {
                             incr2 = incr2 + 2;
@@ -290,8 +295,287 @@ public class home extends javax.swing.JFrame {
 
             tincr = 0;
         }
+        
+         
 
-        jcs.setText(String.valueOf(incr1 + incr2 + fincr + nincr+((qi/2))));
+        jcs.setText(String.valueOf(incr1 + incr2 + fincr + nincr + oincr + ((qi / 2))));
+        //jcs.setText(String.valueOf(fincr+nincr));
+
+        //return (incr1+incr2);
+    }
+
+    public void calcpp() {
+             String x = "Helloworld";
+        String javatext = tc.getText().toString();
+
+        int incr1 = 0;
+        int incr2 = 0;
+        int fincr = 0;
+        int nincr = 0;
+        int x11 = 0;
+        int oincr = 0;
+        //jcs.setText(javatext);
+
+        String[] add1 = {" + ", " - ", "*", "/", "%", "++", "--", "==", "!=", " > ", " < ", ">=", "<=", "&&", "||", "!", " | ", "^", "~", " << ", " >> ", ">>>", "<<<",
+            ",", "->", ".", "::", "+=", "-=", "*=", "/=", " = ", ">>>=", "|=", "&=", "%=", "<<=", ">>=", "^=",
+            " void", "double ", "int ", "float ", "String ", "long ", "printf(", "println(", "cin", "if", " for (", " while(",
+            " do{", " switch", "case", "endl", "\n", " class ", " new ", "args[]", "System", "out", "FileNotFoundException", "accessFiles"};
+
+        String[] add2 = {" new ", "delete", " throw ", " and ", " throws "};
+
+        String lines[] = javatext.split(" \\r?\\n");
+
+        String[] splited = javatext.split("\\s+");
+
+        ArrayList<Integer> cline = new ArrayList<Integer>();
+        ArrayList<String> rspace = new ArrayList<String>();
+        ArrayList<String> vari = new ArrayList<String>();
+        ArrayList<String> func = new ArrayList<String>();
+        ArrayList<String> obj = new ArrayList<String>();
+
+        ArrayList<String> rspace1 = new ArrayList<String>();
+
+        for (String rs : splited) {
+
+            rspace.add(rs);
+
+        }
+
+        for (int ii = 0; ii <= rspace.size() - 2; ii++) {
+
+            if ((rspace.get(ii).equals("int") || rspace.get(ii).equals("float") || rspace.get(ii).equals("String") || rspace.get(ii).equals("double") || (rspace.get(ii).equals("long")) || (rspace.get(ii).equals("void")))
+                    && (rspace.get(ii + 1).indexOf("(") > 0)) {
+
+                fincr = fincr + 1;
+                func.add(rspace.get(ii + 1));
+
+            }
+            if ((rspace.get(ii).equals("int") || rspace.get(ii).equals("float") || rspace.get(ii).equals("String") || rspace.get(ii).equals("double") || (rspace.get(ii).equals("long")))
+                    && (rspace.get(ii + 1).matches("[a-zA-Z$_][a-zA-Z0-9$_]*"))) {
+
+                fincr = fincr + 1;
+                vari.add(rspace.get(ii + 1));
+
+            }
+
+
+            /*if ((rspace.get(ii).indexOf("(")>0)
+                    && (rspace.get(ii + 1).matches("[a-zA-Z$_][a-zA-Z0-9$_]*"))) {
+
+                fincr = fincr + 1;
+                vari.add(rspace.get(ii + 1));
+
+            }*/
+ /*if ((rspace.get(ii).equals("(int") || rspace.get(ii).equals("(float") || rspace.get(ii).equals("(String") || rspace.get(ii).equals("(double")||(rspace.get(ii).equals("(long")))
+                    && (rspace.get(ii + 1).matches("[a-zA-Z$_][a-zA-Z0-9$_]*"))) {
+
+                fincr = fincr + 1;
+                vari.add(rspace.get(ii + 1));
+
+            }*/
+            String xx = "int1";
+            if (rspace.get(ii).indexOf("int[]") >= 0 || rspace.get(ii).equals("float[]") || rspace.get(ii).equals("String[]") || rspace.get(ii).equals("double[]") || (rspace.get(ii).equals("long[]"))) {
+
+                fincr = fincr + 1;
+
+            } else if ((rspace.get(ii).equals("int") || rspace.get(ii).equals("float") || rspace.get(ii).equals("String") || rspace.get(ii).equals("double") || (rspace.get(ii).equals("long"))) && (rspace.get(ii + 1).equals("[]"))) {
+
+                fincr = fincr + 1;
+            } else if ((rspace.get(ii + 1).equals("[]"))
+                    && (rspace.get(ii).matches("[a-zA-Z$_][a-zA-Z0-9$_]*"))) {
+
+                fincr = fincr + 1;
+            } else if ((rspace.get(ii).equals("[")) && (rspace.get(ii + 1).equals("]"))) {
+                fincr = fincr + 1;
+
+            }
+            
+            if(rspace.get(ii).equals("class")){
+                
+                obj.add(rspace.get(ii+1));
+                
+            }
+
+        }
+
+        for (String rs1 : splited) {
+
+            rspace1.add(rs1);
+
+        }
+        for (int ii = 0; ii <= rspace1.size() - 1; ii++) {
+
+            //String x1 = splited.toString();
+            //char[] chars = x1.toCharArray();
+            //StringBuilder sb = new StringBuilder();
+            //for (String y : vari) {
+            for (char c : rspace1.get(ii).toCharArray()) {
+
+                if (Character.isDigit(c) && !(vari.contains(rspace.get(ii)))) {
+                    nincr = nincr + 1;
+                    break;
+
+                }
+
+                {
+
+                }
+
+            }
+
+            if ((vari.contains(rspace.get(ii))) && (rspace.get(ii - 1).indexOf("long")) < 0) {
+                nincr = nincr + 1;
+
+            }
+
+            if ((func.contains(rspace.get(ii))) && (rspace.get(ii - 1).indexOf("long")) < 0 && (rspace.get(ii - 1).indexOf("void")) < 0) {
+                nincr = nincr + 1;
+
+            }
+
+            
+            
+            
+            // if()
+            System.out.println(x11);
+        }
+
+        for (int ii = 0; ii <= rspace1.size() - 2; ii++) {
+            
+            if ((obj.contains(rspace.get(ii))) &&(rspace.get(ii+1)).matches("[a-zA-Z$_][a-zA-Z0-9$_]*")){
+
+                oincr=oincr+1;
+            }
+            
+        }
+        String javatext1 = tjava.getText().toString();
+        String q;
+        int qi = 0;
+
+        for (int s = 0; s <= javatext1.length(); s++) {
+
+            if ((javatext1.indexOf("\"") > 0)) {
+
+                try {
+
+                    qi = qi + 1;
+
+                    q = javatext1.substring(javatext1.indexOf("\"") + 1, javatext1.length());
+                    //System.out.println(str);
+                    //System.out.println(add1[i]);
+                    javatext1 = q;
+                } catch (Exception ex) {
+                    System.out.println(ex);
+
+                }
+            }
+
+        }
+
+        Pattern p = Pattern.compile("\"([^\"]*)\"");
+        Matcher m = p.matcher(javatext);
+        while (m.find()) {
+            System.out.println(m.group(1));
+        }
+
+        System.out.println((nincr));
+
+        int l = 0;
+
+        for (String slines : lines) {
+            int i = 0;
+            int s = 0;
+
+            String str;
+            String ostr = slines;
+
+            str = slines;
+            int tincr = 0;
+
+            //slines.indexOf(add1[i]);
+            for (i = 0; i <= add1.length - 1; i++) {
+                //slines = tjava.getText().toString();
+
+                for (s = 0; s <= slines.length(); s++) {
+
+                    if ((slines.indexOf(add1[i]) >= 0)) {
+
+                        try {
+
+                            incr1 = incr1 + 1;
+                            tincr = tincr + 1;
+
+                            str = slines.substring((slines.indexOf(add1[i])) + 1, slines.length());
+                            //System.out.println(str);
+                            //System.out.println(add1[i]);
+                            slines = str;
+                        } catch (Exception ex) {
+                            System.out.println(ex);
+
+                        }
+                    }
+
+                }
+
+                slines = ostr;
+
+            }
+            l = l + 1;
+            cline.add(tincr);
+
+        }
+       
+
+        int l3 = 0;
+        int incr3 = 0;
+
+        
+        String str1;
+        int l2 = 0;
+
+        //slines = tjava.getText().toString();
+        for (String slines2 : lines) {
+
+            int tincr = 0;
+
+            String ostr = slines2;
+            for (int i = 0; i <= 4; i++) {
+                //javatext = tjava.getText().toString();
+
+                for (int s = 0; s <= slines2.length(); s++) {
+
+                    if ((slines2.indexOf(add2[i]) >= 0)) {
+
+                        try {
+                            incr2 = incr2 + 2;
+                            tincr = tincr + 2;
+                            //System.out.println(add1[i]);
+
+                            str1 = slines2.substring(slines2.indexOf(add2[i]) + add2[i].length(), slines2.length());
+
+                            slines2 = str1;
+                        } catch (Exception ex) {
+                            System.out.println(ex);
+
+                        }
+                    }
+                    //System.out.println(javatext.indexOf(add1[i]));
+
+                }
+            }
+
+            System.out.println(ostr + "********" + ((cline.get(l2)) + (tincr)));
+            l2 = l2 + 1;
+            //System.out.println(cline.get(l));
+            //System.out.println(cline.get(l)+tincr);
+
+            tincr = 0;
+        }
+        
+         
+
+        jcs.setText(String.valueOf(incr1 + incr2 + fincr + nincr + oincr + ((qi / 2))));
+        //jcs.setText(String.valueOf(fincr+nincr));
 
         //return (incr1+incr2);
     }
@@ -365,13 +649,7 @@ public class home extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 214, Short.MAX_VALUE)
-                .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
-                .addGap(43, 43, 43)
+                .addGap(44, 44, 44)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -379,58 +657,68 @@ public class home extends javax.swing.JFrame {
                             .addComponent(jLabel2))
                         .addGap(58, 58, 58)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel4)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jcs)
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addComponent(jLabel4)
+                            .addComponent(jcs)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(gjava)
+                        .addGap(73, 73, 73)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(gc)
+                            .addComponent(jLabel6))
+                        .addGap(94, 94, 94))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jLabel5)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(gc)
-                                    .addComponent(jLabel6))
-                                .addGap(128, 128, 128))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(jLabel5)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel8)
-                                    .addComponent(ccs))
-                                .addGap(34, 34, 34))))))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel8)
+                            .addComponent(ccs))))
+                .addGap(67, 67, 67))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 637, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 252, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(8, 8, 8)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 105, Short.MAX_VALUE)
-                    .addComponent(jScrollPane2))
-                .addGap(42, 42, 42)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(gjava)
-                    .addComponent(gc))
-                .addGap(41, 41, 41)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jcs)
-                    .addComponent(jLabel5)
-                    .addComponent(ccs))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 419, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1))
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(26, 26, 26)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(gjava)
+                        .addGap(41, 41, 41)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel8)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
+                            .addComponent(jLabel1)
+                            .addComponent(jcs))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel6)
-                            .addComponent(jLabel2))))
-                .addContainerGap(92, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(26, 26, 26)
+                                .addComponent(jLabel4))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabel2))))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(gc)
+                        .addGap(41, 41, 41)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel5)
+                            .addComponent(ccs))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(26, 26, 26)
+                                .addComponent(jLabel8))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabel6)))))
+                .addGap(34, 34, 34))
         );
 
         pack();
@@ -440,18 +728,19 @@ public class home extends javax.swing.JFrame {
         // TODO add your handling code here:
 
         caljava();
+
         //DefaultPieDataset barchartdata=new DefaultPieDataset();
         // barchartdata.setValue(20000,"yuyu","ioui");
         // barchartdata.setValue(15000,"yu yu","ioui");
-
         //JfreeChart barChartData=CharsFactory.createBarChart("uiui",monthly,yuy);
 
     }//GEN-LAST:event_gjavaActionPerformed
 
     private void gcActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gcActionPerformed
-        // TODO add your handling code here:
-        String ctext = tc.getText().toString();
-        ccs.setText(ctext);
+
+        calcpp();
+        //String ctext = tc.getText().toString();
+        //ccs.setText(ctext);
     }//GEN-LAST:event_gcActionPerformed
 
     /**
