@@ -42,10 +42,10 @@ public class home extends javax.swing.JFrame {
 
         String[] add1 = {" + ", " - ", "*", "/", "%", "++", "--", "==", "!=", " > ", " < ", ">=", "<=", "&&", "||", "!", " | ", "^", "~", " << ", " >> ", ">>>", "<<<",
             ",", "->", ".", "::", "+=", "-=", "*=", "/=", " = ", ">>>=", "|=", "&=", "%=", "<<=", ">>=", "^=",
-            " void", "double ", "int ", "float ", "String ", "long ", "printf(", "println(", "cin", "if", " for (", " while(",
-            " do{", " switch", "case", "endl", "\n", " class ", " new ", "args[]", "System", "out", "FileNotFoundException", "accessFiles"};
+            " void", "double ", "int ", "float ", "String ", "long ", "printf(", ".println(", "cin", "if", "for (", " while(",
+            " do{", " switch", "case", "endl", "class ", "args[]", "System.", ".out", "FileNotFoundException", "accessFiles", "cout"};
 
-        String[] add2 = {" new ", "delete", " throw ", " and ", " throws "};
+        String[] add2 = {"new", "delete", "throw ", " and ", " throws "};
 
         String lines[] = javatext.split(" \\r?\\n");
 
@@ -56,6 +56,8 @@ public class home extends javax.swing.JFrame {
         ArrayList<String> vari = new ArrayList<String>();
         ArrayList<String> func = new ArrayList<String>();
         ArrayList<String> obj = new ArrayList<String>();
+        ArrayList<String> obj1 = new ArrayList<String>();
+
 
         ArrayList<String> rspace1 = new ArrayList<String>();
 
@@ -66,12 +68,19 @@ public class home extends javax.swing.JFrame {
         }
 
         for (int ii = 0; ii <= rspace.size() - 2; ii++) {
+            
+            /*if(rspace.get(ii).indexOf("\n")>0){
+                
+                System.out.println("yes");
+            }*/ 
 
             if ((rspace.get(ii).equals("int") || rspace.get(ii).equals("float") || rspace.get(ii).equals("String") || rspace.get(ii).equals("double") || (rspace.get(ii).equals("long")) || (rspace.get(ii).equals("void")))
                     && (rspace.get(ii + 1).indexOf("(") > 0)) {
 
                 fincr = fincr + 1;
                 func.add(rspace.get(ii + 1));
+                
+                
 
             }
             if ((rspace.get(ii).equals("int") || rspace.get(ii).equals("float") || rspace.get(ii).equals("String") || rspace.get(ii).equals("double") || (rspace.get(ii).equals("long")))
@@ -113,11 +122,11 @@ public class home extends javax.swing.JFrame {
                 fincr = fincr + 1;
 
             }
-            
-            if(rspace.get(ii).equals("class")){
-                
-                obj.add(rspace.get(ii+1));
-                
+
+            if (rspace.get(ii).equals("class")) {
+
+                obj.add(rspace.get(ii + 1));
+
             }
 
         }
@@ -147,30 +156,42 @@ public class home extends javax.swing.JFrame {
 
             }
 
-            if ((vari.contains(rspace.get(ii))) && (rspace.get(ii - 1).indexOf("long")) < 0) {
+            if ((vari.contains(rspace.get(ii))) && (rspace.get(ii - 1).indexOf("long")) < 0 && (rspace.get(ii - 1).indexOf("String")) < 0 && (rspace.get(ii - 1).indexOf("int")) < 0 && (rspace.get(ii - 1).indexOf("double")) < 0) {
                 nincr = nincr + 1;
 
             }
 
-            if ((func.contains(rspace.get(ii))) && (rspace.get(ii - 1).indexOf("long")) < 0 && (rspace.get(ii - 1).indexOf("void")) < 0) {
+            if ((func.contains(rspace.get(ii))) && (rspace.get(ii - 1).indexOf("long")) < 0 && (rspace.get(ii - 1).indexOf("void")) < 0 && (rspace.get(ii - 1).indexOf("String")) < 0 && (rspace.get(ii - 1).indexOf("int")) < 0) {
                 nincr = nincr + 1;
 
             }
 
-            
-            
-            
             // if()
             System.out.println(x11);
         }
 
         for (int ii = 0; ii <= rspace1.size() - 2; ii++) {
-            
-            if ((obj.contains(rspace.get(ii))) &&(rspace.get(ii+1)).matches("[a-zA-Z$_][a-zA-Z0-9$_]*")){
 
-                oincr=oincr+1;
+            if ((obj.contains(rspace.get(ii))) && (rspace.get(ii + 1)).matches("[a-zA-Z$_][a-zA-Z0-9$_]*")) {
+
+                oincr = oincr + 1;
+                
+                obj1.add(rspace.get(ii+1));
+                
+                
             }
-            
+
+        }
+        
+        for (int ii = 0; ii <= rspace1.size() - 1; ii++) {
+
+            if ((obj1.contains(rspace.get(ii))) && !(obj.contains(rspace.get(ii-1)))) {
+
+                oincr = oincr + 1;
+                
+                
+            }
+
         }
         String javatext1 = tjava.getText().toString();
         String q;
@@ -244,16 +265,16 @@ public class home extends javax.swing.JFrame {
                 slines = ostr;
 
             }
+
+            //incr1=incr1-1;
             l = l + 1;
             cline.add(tincr);
 
         }
-       
 
         int l3 = 0;
         int incr3 = 0;
 
-        
         String str1;
         int l2 = 0;
 
@@ -295,8 +316,6 @@ public class home extends javax.swing.JFrame {
 
             tincr = 0;
         }
-        
-         
 
         jcs.setText(String.valueOf(incr1 + incr2 + fincr + nincr + oincr + ((qi / 2))));
         //jcs.setText(String.valueOf(fincr+nincr));
@@ -305,7 +324,7 @@ public class home extends javax.swing.JFrame {
     }
 
     public void calcpp() {
-             String x = "Helloworld";
+        String x = "Helloworld";
         String javatext = tc.getText().toString();
 
         int incr1 = 0;
@@ -319,7 +338,7 @@ public class home extends javax.swing.JFrame {
         String[] add1 = {" + ", " - ", "*", "/", "%", "++", "--", "==", "!=", " > ", " < ", ">=", "<=", "&&", "||", "!", " | ", "^", "~", " << ", " >> ", ">>>", "<<<",
             ",", "->", ".", "::", "+=", "-=", "*=", "/=", " = ", ">>>=", "|=", "&=", "%=", "<<=", ">>=", "^=",
             " void", "double ", "int ", "float ", "String ", "long ", "printf(", "println(", "cin", "if", " for (", " while(",
-            " do{", " switch", "case", "endl", "\n", " class ", " new ", "args[]", "System", "out", "FileNotFoundException", "accessFiles"};
+            " do{", " switch", "case", "endl", " class ", " new ", "args[]", "System", ".out", "FileNotFoundException", "accessFiles"};
 
         String[] add2 = {" new ", "delete", " throw ", " and ", " throws "};
 
@@ -389,11 +408,11 @@ public class home extends javax.swing.JFrame {
                 fincr = fincr + 1;
 
             }
-            
-            if(rspace.get(ii).equals("class")){
-                
-                obj.add(rspace.get(ii+1));
-                
+
+            if (rspace.get(ii).equals("class")) {
+
+                obj.add(rspace.get(ii + 1));
+
             }
 
         }
@@ -423,30 +442,27 @@ public class home extends javax.swing.JFrame {
 
             }
 
-            if ((vari.contains(rspace.get(ii))) && (rspace.get(ii - 1).indexOf("long")) < 0) {
+            if ((vari.contains(rspace.get(ii))) && (rspace.get(ii - 1).indexOf("long")) < 0 && (rspace.get(ii - 1).indexOf("String")) < 0 && (rspace.get(ii - 1).indexOf("int")) < 0 && (rspace.get(ii - 1).indexOf("double")) < 0) {
                 nincr = nincr + 1;
 
             }
 
-            if ((func.contains(rspace.get(ii))) && (rspace.get(ii - 1).indexOf("long")) < 0 && (rspace.get(ii - 1).indexOf("void")) < 0) {
+            if ((func.contains(rspace.get(ii))) && (rspace.get(ii - 1).indexOf("long")) < 0 && (rspace.get(ii - 1).indexOf("void")) < 0 && (rspace.get(ii - 1).indexOf("String")) < 0 && (rspace.get(ii - 1).indexOf("int")) < 0) {
                 nincr = nincr + 1;
 
             }
 
-            
-            
-            
             // if()
             System.out.println(x11);
         }
 
         for (int ii = 0; ii <= rspace1.size() - 2; ii++) {
-            
-            if ((obj.contains(rspace.get(ii))) &&(rspace.get(ii+1)).matches("[a-zA-Z$_][a-zA-Z0-9$_]*")){
 
-                oincr=oincr+1;
+            if ((obj.contains(rspace.get(ii))) && (rspace.get(ii + 1)).matches("[a-zA-Z$_][a-zA-Z0-9$_]*")) {
+
+                oincr = oincr + 1;
             }
-            
+
         }
         String javatext1 = tjava.getText().toString();
         String q;
@@ -524,12 +540,10 @@ public class home extends javax.swing.JFrame {
             cline.add(tincr);
 
         }
-       
 
         int l3 = 0;
         int incr3 = 0;
 
-        
         String str1;
         int l2 = 0;
 
@@ -571,10 +585,8 @@ public class home extends javax.swing.JFrame {
 
             tincr = 0;
         }
-        
-         
 
-        jcs.setText(String.valueOf(incr1 + incr2 + fincr + nincr + oincr + ((qi / 2))));
+        jcs.setText(String.valueOf(incr2 + fincr + nincr + oincr + ((qi / 2))));
         //jcs.setText(String.valueOf(fincr+nincr));
 
         //return (incr1+incr2);
