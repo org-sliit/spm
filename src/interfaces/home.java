@@ -62,6 +62,7 @@ public class home extends javax.swing.JFrame {
     ArrayList<Integer> inheric = new ArrayList<Integer>();
 
     ArrayList<Integer> recursiveArr = new ArrayList<Integer>();
+    public HashMap<Integer,Integer> valueArray = new HashMap<Integer, Integer>();;
     DefaultTableModel model = new DefaultTableModel();
 
     int inheritancecount;
@@ -83,6 +84,70 @@ public class home extends javax.swing.JFrame {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
     }
+    
+     public void countNested(String codeText){
+     int lineNum = 0;
+     int sum = 0;
+     String[] lines = codeText.split("\\r?\\n");
+     lines = Arrays.stream(lines).filter(x -> !x.isEmpty()).toArray(String[]::new);
+     for(int m = 0; m<lines.length;m++){
+
+     }
+     final String regex = "((?:(?:for|if|while)))\\s*\\s*\\(.*?.*\\)";
+     final Pattern pattern = Pattern.compile(regex, Pattern.COMMENTS | Pattern.MULTILINE);
+
+     for(int i=0; i < lines.length;) {
+         final Matcher matcher = pattern.matcher(lines[i]);
+         int count = 0;
+         int max = 0;
+         int count2 =0;
+         boolean flag = false;
+
+         if(matcher.find()) {
+             System.out.println("Full match: " + matcher.group(0));
+             ArrayList<Integer> linesArray= new ArrayList<Integer>();
+             String temp = lines[i];
+             outerloop:
+             for (int j = i; j < lines.length;  j++) {
+                 linesArray.add(i+count2);
+                 count2++;
+                 for (char ch : lines[j].toCharArray()) {
+                     if (ch == '{') {
+                         flag = true;
+                         count++;
+                         max++;
+                     } else if (ch == '}' && flag) {
+                         count--;
+                         max++;
+                     }
+
+                     if (count == 0 && flag) {
+                         break outerloop;
+                     }
+                 }
+
+             }
+
+             i+=count2-1;
+             String methodBody="";
+             for (Integer s : linesArray)
+             {
+                 valueArray.put(s, valueArray.get(s)+1);
+                 methodBody += lines[s] + "\n";
+             }
+
+             final String regex2 = "((?:(?:for|if|while)\\s+)*)\\s*(\\w+)\\s*\\(.*?\\)\\s*(\\{(?:\\{[^\\{}]*\\}|.)*?\\})";
+             final Pattern pattern2 = Pattern.compile(regex2, Pattern.DOTALL);
+             Matcher matcher2 = pattern2.matcher(methodBody);
+             if (matcher2.find()) {
+                 countNested(matcher2.group(3));
+             }
+
+         }else{
+             i++;
+         }
+     }
+ }
 
     public void calRecursive(String codeText) {
         int lineNum = 0;
@@ -1363,7 +1428,7 @@ public class home extends javax.swing.JFrame {
                     
                     rec=rec+temp*2;
 
-                    model.insertRow(l2, new Object[]{ostr, wline[l2], ((cline.get(l2)) + (tincr) + (fline.get(l2)) + (nline.get(l2)) + (oline0.get(l2) + (oline.get(l2)) + (qline.get(l2)) / 2)), actc.get(l2), inheri.get(l2), temp * 2});
+                    model.insertRow(l2, new Object[]{ostr, wline[l2], ((cline.get(l2)) + (tincr) + (fline.get(l2)) + (nline.get(l2)) + (oline0.get(l2) + (oline.get(l2)) + (qline.get(l2)) / 2)), actc.get(l2), inheri.get(l2), temp * 2,valueArray.get(l2)});
 
                 } else {
                     if (temp * 2 == 0) {
@@ -1371,7 +1436,7 @@ public class home extends javax.swing.JFrame {
                         temp = 0;
                     }
 
-                    model.insertRow(l2, new Object[]{ostr, wline[l2], ((cline.get(l2)) + (tincr) + (fline.get(l2)) + (nline.get(l2)) + (oline0.get(l2) + (oline.get(l2)) + (qline.get(l2)) / 2)), actc.get(l2), inheri.get(l2), "0"});
+                    model.insertRow(l2, new Object[]{ostr, wline[l2], ((cline.get(l2)) + (tincr) + (fline.get(l2)) + (nline.get(l2)) + (oline0.get(l2) + (oline.get(l2)) + (qline.get(l2)) / 2)), actc.get(l2), inheri.get(l2), "0",valueArray.get(l2)});
                 }
                 System.out.println("svhkzfbsz" + recursiveArr);
                 l2 = l2 + 1;
@@ -1797,7 +1862,7 @@ public class home extends javax.swing.JFrame {
                         crec=crec+temp*2;
                    
 
-                    model.insertRow(l2, new Object[]{ostr, wline[l2], ((cline.get(l2)) + (tincr) + (fline.get(l2)) + (nline.get(l2)) + (oline0.get(l2) + (oline.get(l2)) + (qline.get(l2)) / 2)), actc.get(l2), inheric.get(l2), temp * 2});
+                    model.insertRow(l2, new Object[]{ostr, wline[l2], ((cline.get(l2)) + (tincr) + (fline.get(l2)) + (nline.get(l2)) + (oline0.get(l2) + (oline.get(l2)) + (qline.get(l2)) / 2)), actc.get(l2), inheric.get(l2), temp * 2,"0"});
 
                 } else {
                     if (temp * 2 == 0) {
@@ -1805,7 +1870,7 @@ public class home extends javax.swing.JFrame {
                         temp = 0;
                     }
 
-                    model.insertRow(l2, new Object[]{ostr, wline[l2], ((cline.get(l2)) + (tincr) + (fline.get(l2)) + (nline.get(l2)) + (oline0.get(l2) + (oline.get(l2)) + (qline.get(l2)) / 2)), actc.get(l2), inheric.get(l2), "0"});
+                    model.insertRow(l2, new Object[]{ostr, wline[l2], ((cline.get(l2)) + (tincr) + (fline.get(l2)) + (nline.get(l2)) + (oline0.get(l2) + (oline.get(l2)) + (qline.get(l2)) / 2)), actc.get(l2), inheric.get(l2), "0","0"});
                 }
                 System.out.println("svhkzfbsz" + recursiveArr);
                
@@ -2184,6 +2249,13 @@ public class home extends javax.swing.JFrame {
             System.out.println("java");
 
 // TODO add your handling code here:
+String[] lines = tjava.getText().split("\\r?\\n");
+            lines = Arrays.stream(lines).filter(x -> !x.isEmpty()).toArray(String[]::new);
+            for(int m=0;m<lines.length;m++){
+            valueArray.put(m,0);
+            }
+        
+            countNested(tjava.getText());
             calRecursive(tjava.getText());
             calInheritance(tjava.getText());
             calJavaCtc(tjava.getText());
